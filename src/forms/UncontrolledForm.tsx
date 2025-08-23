@@ -155,7 +155,6 @@ export default function UncontrolledForm({
       </div>
 
       <div className="field">
-        <label htmlFor="u-country">Country</label>
         <Autocomplete
           id="u-country"
           label="Country"

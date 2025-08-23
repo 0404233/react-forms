@@ -97,7 +97,6 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
       </div>
 
       <div className="field">
-        <label htmlFor="r-country">Country</label>
         <Autocomplete
           id="r-country"
           label="Country"
