@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/React-forms/',
+  base: '/react-forms/',
   plugins: [react()],
   test: {
     environment: 'jsdom',
