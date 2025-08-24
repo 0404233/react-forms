@@ -1,18 +1,26 @@
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { baseSchema } from '../utils/validation'
-import { validateImageFile, fileToBase64 } from '../utils/image'
-import { useAppDispatch, useCountries } from '../hooks'
-import { addSubmission } from '../store/submissionsSlice'
-import Autocomplete from '../components/Autocomplete'
-import { GenderField, PasswordStrength } from './shared'
-import type { Gender } from '../types'
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { baseSchema } from '../utils/validation';
+import { validateImageFile, fileToBase64 } from '../utils/image';
+import { useAppDispatch, useCountries } from '../hooks';
+import { addSubmission } from '../store/submissionsSlice';
+import Autocomplete from '../components/Autocomplete';
+import { GenderField, PasswordStrength } from './shared';
+import type { Gender } from '../types';
 
 export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
-  const dispatch = useAppDispatch()
-  const countries = useCountries()
+  const dispatch = useAppDispatch();
+  const countries = useCountries();
 
-  const { register, handleSubmit, watch, formState: { errors, isValid }, setValue, getValues, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+    setValue,
+    getValues,
+    control,
+  } = useForm({
     resolver: zodResolver(baseSchema),
     mode: 'onChange',
     defaultValues: {
@@ -24,32 +32,36 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
       gender: 'male',
       acceptedTC: true,
       country: '',
-      pictureFile: undefined
-    }
-  })
+      pictureFile: undefined,
+    },
+  });
 
   const onSubmit = handleSubmit(async (data) => {
-    const imgValid = validateImageFile(data.pictureFile)
-    if (!imgValid.ok) return
+    const imgValid = validateImageFile(data.pictureFile);
+    if (!imgValid.ok) return;
 
-    const pictureBase64 = data.pictureFile ? await fileToBase64(data.pictureFile) : undefined
+    const pictureBase64 = data.pictureFile
+      ? await fileToBase64(data.pictureFile)
+      : undefined;
 
-    dispatch(addSubmission({
-      name: data.name,
-      age: Number(data.age),
-      email: data.email,
-      password: data.password,
-      gender: data.gender,
-      acceptedTC: data.acceptedTC,
-      pictureBase64,
-      country: data.country,
-      source: 'react-hook-form'
-    }))
+    dispatch(
+      addSubmission({
+        name: data.name,
+        age: Number(data.age),
+        email: data.email,
+        password: data.password,
+        gender: data.gender,
+        acceptedTC: data.acceptedTC,
+        pictureBase64,
+        country: data.country,
+        source: 'react-hook-form',
+      })
+    );
 
-    onSuccess()
-  })
+    onSuccess();
+  });
 
-  const pw = watch('password') || ''
+  const pw = watch('password') || '';
 
   return (
     <form onSubmit={onSubmit} noValidate>
@@ -73,26 +85,44 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
 
       <div className="field">
         <label htmlFor="r-password">Password</label>
-        <input id="r-password" type="password" {...register('password')} />
+        <input
+          id="r-password"
+          data-testid="password"
+          type="password"
+          {...register('password')}
+        />
         <PasswordStrength value={pw} />
         <div className="error">{errors.password?.message || '\u00A0'}</div>
       </div>
 
       <div className="field">
         <label htmlFor="r-cpassword">Confirm password</label>
-        <input id="r-cpassword" type="password" {...register('confirmPassword')} />
-        <div className="error">{errors.confirmPassword?.message || '\u00A0'}</div>
+        <input
+          id="r-cpassword"
+          data-testid="confirm-password"
+          type="password"
+          {...register('confirmPassword')}
+        />
+        <div className="error">
+          {errors.confirmPassword?.message || '\u00A0'}
+        </div>
       </div>
 
       <GenderField
         value={getValues('gender')}
-        onChange={(v) => setValue('gender', v as Gender, { shouldValidate: true, shouldDirty: true })}
+        onChange={(v) =>
+          setValue('gender', v as Gender, {
+            shouldValidate: true,
+            shouldDirty: true,
+          })
+        }
         error={errors.gender?.message}
       />
 
       <div className="field inline">
         <label className="checkbox">
-          <input id="r-tc" type="checkbox" {...register('acceptedTC')} /> Accept Terms & Conditions
+          <input id="r-tc" type="checkbox" {...register('acceptedTC')} /> Accept
+          Terms & Conditions
         </label>
         <div className="error">{errors.acceptedTC?.message || '\u00A0'}</div>
       </div>
@@ -102,7 +132,9 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
           id="r-country"
           label="Country"
           value={getValues('country') || ''}
-          onChange={(v) => setValue('country', v, { shouldValidate: true, shouldDirty: true })}
+          onChange={(v) =>
+            setValue('country', v, { shouldValidate: true, shouldDirty: true })
+          }
           options={countries}
           error={errors.country?.message}
         />
@@ -126,8 +158,10 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
       </div>
 
       <div className="actions">
-        <button type="submit" disabled={!isValid}>Submit</button>
+        <button type="submit" disabled={!isValid}>
+          Submit
+        </button>
       </div>
     </form>
-  )
+  );
 }
