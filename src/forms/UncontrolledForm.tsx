@@ -109,6 +109,7 @@ export default function UncontrolledForm({
       <div className="field">
         <label htmlFor="u-password">Password</label>
         <input
+          data-testid="password"
           id="u-password"
           ref={refs.password}
           type="password"
@@ -122,7 +123,12 @@ export default function UncontrolledForm({
 
       <div className="field">
         <label htmlFor="u-cpassword">Confirm password</label>
-        <input id="u-cpassword" ref={refs.confirmPassword} type="password" />
+        <input
+          data-testid="confirm-password"
+          id="u-cpassword"
+          ref={refs.confirmPassword}
+          type="password"
+        />
         <div className="error" aria-live="polite">
           {errors.confirmPassword || '\u00A0'}
         </div>
