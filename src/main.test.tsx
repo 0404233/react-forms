@@ -20,6 +20,7 @@ describe('main.tsx', () => {
   it('call createRoot', async () => {
     const { createRoot } = await import('react-dom/client')
     const rootMock = createRoot(document.getElementById('root')!)
+    void rootMock
 
     await import('./main')
 
