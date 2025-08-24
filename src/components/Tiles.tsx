@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useAppDispatch } from '../hooks'
 import { clearHighlight } from '../store/submissionsSlice'
+import type { Submission } from '../types'
 
-export default function Tiles({ items, highlightId }: { items: any[], highlightId?: string }) {
+export default function Tiles({ items, highlightId }: { items: Submission[], highlightId?: string }) {
   const dispatch = useAppDispatch()
   useEffect(() => {
     if (!highlightId) return

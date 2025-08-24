@@ -6,6 +6,7 @@ import { useAppDispatch, useCountries } from '../hooks'
 import { addSubmission } from '../store/submissionsSlice'
 import Autocomplete from '../components/Autocomplete'
 import { GenderField, PasswordStrength } from './shared'
+import type { Gender } from '../types'
 
 export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
   const dispatch = useAppDispatch()
@@ -85,7 +86,7 @@ export default function HookForm({ onSuccess }: { onSuccess: () => void }) {
 
       <GenderField
         value={getValues('gender')}
-        onChange={(v) => setValue('gender', v as any, { shouldValidate: true, shouldDirty: true })}
+        onChange={(v) => setValue('gender', v as Gender, { shouldValidate: true, shouldDirty: true })}
         error={errors.gender?.message}
       />
 

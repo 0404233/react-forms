@@ -6,7 +6,7 @@ export interface Country { name: string }
 
 
 const countryNames: string[] = world
-.map((c: any) => c.name?.common as string)
+.map((c) => c.name?.common as string)
 .filter(Boolean)
 .sort((a: string, b: string) => a.localeCompare(b))
 
